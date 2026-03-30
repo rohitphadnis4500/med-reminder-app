@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard | Smart Med Tracker</title>
+
+  <!-- Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #dbeafe, #e0f2fe, #e6fffa);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: linear-gradient(90deg, #1e3a8a, #2563eb);
+      color: white;
+      padding: 1.2rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .brand {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    main {
+      flex: 1;
+      max-width: 1100px;
+      width: 94%;
+      margin: 40px auto;
+      background: #ffffffcc;
+      border-radius: 20px;
+      padding: 40px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 40px rgba(30, 58, 138, 0.15);
+    }
+
+    .section-card {
+      background: linear-gradient(145deg, #f1f5f9, #f8fafc);
+      padding: 24px;
+      border-radius: 16px;
+      transition: all 0.25s ease-in-out;
+      box-shadow: 0 6px 20px rgba(30, 64, 175, 0.08);
+      cursor: pointer;
+    }
+
+    .section-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.18);
+    }
+
+    .btn {
+      background: linear-gradient(90deg, #2563eb, #1d4ed8);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      background: linear-gradient(90deg, #1d4ed8, #2563eb);
+    }
+
+    footer {
+      text-align: center;
+      color: #475569;
+      padding: 1rem;
+      font-size: 0.9rem;
+      margin-top: auto;
+    }
+
+    .logout-btn {
+      background: #ef4444;
+    }
+
+    .logout-btn:hover {
+      background: #dc2626;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="brand">💊 Smart Med Tracker</div>
+    <div class="flex items-center space-x-4">
+      <span id="userEmail" class="text-sm opacity-90"></span>
+      <button id="logoutBtn" class="btn logout-btn text-sm">🚪 Logout</button>
+    </div>
+  </header>
+
+  <main>
+    <h2 class="text-3xl font-semibold mb-8 text-blue-900 text-center flex items-center justify-center gap-2">
+      🩺 Welcome to Your Health Dashboard
+    </h2>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Add Medicine -->
+      <div class="section-card text-center hover:scale-105">
+        <div class="text-5xl mb-3">💊</div>
+        <h3 class="text-xl font-semibold text-blue-700 mb-2">Add New Medicine</h3>
+        <p class="text-gray-600 mb-4">Add your prescribed medications with name, dosage, and timing.</p>
+        <a href="addMedicine.html" class="btn">Add Medicine</a>
+      </div>
+
+      <!-- View Reminders -->
+      <div class="section-card text-center hover:scale-105">
+        <div class="text-5xl mb-3">⏰</div>
+        <h3 class="text-xl font-semibold text-blue-700 mb-2">View Reminders</h3>
+        <p class="text-gray-600 mb-4">Never miss a dose — view all your scheduled medication reminders.</p>
+        <a href="reminders.html" class="btn">View Reminders</a>
+      </div>
+
+      <!-- Track Progress -->
+      <div class="section-card text-center hover:scale-105">
+        <div class="text-5xl mb-3">📈</div>
+        <h3 class="text-xl font-semibold text-blue-700 mb-2">Track Progress</h3>
+        <p class="text-gray-600 mb-4">Monitor your medication adherence and daily progress here.</p>
+        <a href="progress.html" class="btn">View Progress</a>
+      </div>
+
+      <!-- Book Appointment -->
+      <div class="section-card text-center hover:scale-105">
+        <div class="text-5xl mb-3">📅</div>
+        <h3 class="text-xl font-semibold text-blue-700 mb-2">Book Appointment</h3>
+        <p class="text-gray-600 mb-4">Schedule doctor consultations or health checkups easily.</p>
+        <a href="appointments.html" class="btn">Book Now</a>
+      </div>
+
+      <!-- Doctor Contacts -->
+      <div class="section-card text-center hover:scale-105">
+        <div class="text-5xl mb-3">👨‍⚕️</div>
+        <h3 class="text-xl font-semibold text-blue-700 mb-2">Doctor Contacts</h3>
+        <p class="text-gray-600 mb-4">Quickly access and manage your doctor’s contact details.</p>
+        <a href="contacts.html" class="btn">View Contacts</a>
+      </div>
+
+      <!-- Reports -->
+      <div class="section-card text-center hover:scale-105">
+        <div class="text-5xl mb-3">📜</div>
+        <h3 class="text-xl font-semibold text-blue-700 mb-2">Reports & History</h3>
+        <p class="text-gray-600 mb-4">View your medication logs and dosage history anytime.</p>
+        <a href="reports.html" class="btn">View Reports</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 Smart Medication Tracker | Designed for Health & Wellness ❤️
+  </footer>
+
+  <script>
+    // Check if user is logged in
+    const emailDisplay = document.getElementById('userEmail');
+    const storedToken = localStorage.getItem('token');
+    const storedUsers = localStorage.getItem('sm_users');
+    let userEmail = '';
+
+    if (!storedToken) {
+      alert('Please log in first!');
+      window.location.href = 'login.html';
+    } else {
+      if (storedUsers) {
+        try {
+          const users = JSON.parse(storedUsers);
+          userEmail = users[users.length - 1].name;
+        } catch (err) {}
+      }
+      emailDisplay.textContent = userEmail || 'Logged in user';
+    }
+
+    // Logout functionality
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.removeItem('token');
+      alert('Logged out successfully.');
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>

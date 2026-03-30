@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Progress | Smart Medication Tracker</title>
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Include chart.js for visualization -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #f1f8e9);
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #008CBA;
+      color: white;
+      padding: 20px 40px;
+      text-align: center;
+      font-size: 1.8em;
+      font-weight: bold;
+      letter-spacing: 1px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .stat-box {
+      background: #f5f9ff;
+      padding: 20px;
+      border-radius: 12px;
+      width: 28%;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .stat-box i {
+      font-size: 2.2em;
+      color: #008CBA;
+      margin-bottom: 8px;
+    }
+
+    .stat-box h3 {
+      margin: 10px 0;
+      color: #222;
+    }
+
+    .stat-box p {
+      color: #777;
+      font-size: 0.9em;
+    }
+
+    .chart-section {
+      text-align: center;
+    }
+
+    canvas {
+      margin-top: 20px;
+      max-width: 500px;
+      height: 300px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #555;
+      font-size: 0.9em;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    📊 Smart Medication Tracker – Progress
+  </header>
+
+  <div class="container">
+    <h2>Your Medication Progress Overview</h2>
+
+    <!-- Stats section -->
+    <div class="stats">
+      <div class="stat-box">
+        <i class="ri-check-line"></i>
+        <h3 id="takenCount">0</h3>
+        <p>Medicines Taken</p>
+      </div>
+
+      <div class="stat-box">
+        <i class="ri-close-line"></i>
+        <h3 id="missedCount">0</h3>
+        <p>Medicines Missed</p>
+      </div>
+
+      <div class="stat-box">
+        <i class="ri-time-line"></i>
+        <h3 id="pendingCount">0</h3>
+        <p>Pending Reminders</p>
+      </div>
+    </div>
+
+    <!-- Chart section -->
+    <div class="chart-section">
+      <h3>Progress Visualization</h3>
+      <canvas id="progressChart"></canvas>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Smart Medication Tracker | Designed by Rohit 💙
+  </footer>
+
+  <script src="js/progress.js"></script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Medicine</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #eef6ff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: white;
+      margin-top: 40px;
+      padding: 30px 25px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 450px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #0056b3;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: 500;
+      color: #333;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-size: 0.95rem;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .success-message {
+      text-align: center;
+      color: green;
+      font-weight: 600;
+      margin-top: 10px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Add Medicine</h2>
+    <form id="medicineForm" action="javascript:void(0);">
+  <label for="medicineName">Medicine Name</label>
+  <input type="text" id="medicineName" placeholder="Enter medicine name" required />
+
+  <label for="dosage">Dosage</label>
+  <input type="text" id="dosage" placeholder="e.g. 500mg" required />
+
+  <label for="frequency">Frequency</label>
+  <select id="frequency" required>
+    <option value="">-- Select frequency --</option>
+    <option value="once">Once a day</option>
+    <option value="twice">Twice a day</option>
+    <option value="thrice">Thrice a day</option>
+    <option value="4times">4 times a day</option>
+  </select>
+
+  <!-- Dynamic time fields will appear here -->
+  <div id="timeFields"></div>
+
+  <label>Duration</label>
+  <div style="display: flex; gap: 10px;">
+    <input type="date" id="startDate" required />
+    <input type="date" id="endDate" required />
+  </div>
+
+  <button type="submit">💊 Save Medicine</button>
+  <p id="successMessage" class="success-message">Medicine saved successfully!</p>
+</form>
+
+  </div>
+
+  <!-- JS placed at end to ensure DOM loads first -->
+  <script src="addmedicine.js"></script>
+</body>
+</html>

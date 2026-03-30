@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sign Up | Smart Med Tracker</title>
+
+  <!-- Minimal Tailwind CDN for quick styles (optional) -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+  <style>
+    /* Small custom polish */
+    body { font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: linear-gradient(135deg,#e6f0ff,#f8fafc); }
+    .card { max-width:420px; width:94%; margin:48px auto; background: #fff; border-radius:16px; box-shadow:0 10px 30px rgba(18,38,77,0.08); padding:28px; }
+    .brand { color:#1e3a8a; font-weight:700; letter-spacing:0.2px; }
+    .muted { color:#475569; }
+    .input { width:100%; padding:10px 12px; border-radius:8px; border:1px solid #e6eefc; outline:none; transition:box-shadow .15s, border-color .15s; }
+    .input:focus { box-shadow:0 6px 20px rgba(37,99,235,0.12); border-color:#2563eb; }
+    .btn { width:100%; background:linear-gradient(90deg,#2563eb,#1d4ed8); color:white; padding:10px 12px; border-radius:10px; font-weight:600; border:none; cursor:pointer; }
+    .btn:disabled { opacity:.6; cursor:not-allowed; transform:none; }
+    .small { font-size:0.9rem; }
+    .error { color:#dc2626; }
+    .success { color:#16a34a; }
+    .row { margin-bottom:12px; }
+    .footerlink { color:#2563eb; text-decoration:underline; }
+    .spinner { display:inline-block; width:18px; height:18px; border:3px solid rgba(255,255,255,0.35); border-top-color:rgba(255,255,255,0.9); border-radius:50%; animation:spin .9s linear infinite; vertical-align:middle; margin-left:8px; }
+    @keyframes spin{to{transform:rotate(360deg)}}
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="mb-4 text-center">
+      <div class="brand text-2xl">💊 Smart Med Tracker</div>
+      <div class="muted small mt-1">Create your account to start tracking medications</div>
+    </div>
+
+    <form id="signupForm" autocomplete="off" novalidate>
+      <div class="row">
+        <label class="small block mb-1">Full name</label>
+        <input id="name" class="input" type="text" placeholder="Your full name" required />
+      </div>
+
+      <div class="row">
+        <label class="small block mb-1">Email</label>
+        <input id="email" class="input" type="email" placeholder="name@example.com" required />
+      </div>
+
+      <div class="row">
+        <label class="small block mb-1">Password</label>
+        <input id="password" class="input" type="password" placeholder="Minimum 6 characters" minlength="6" required />
+      </div>
+
+      <div class="row">
+        <label class="small block mb-1">Confirm password</label>
+        <input id="confirmPassword" class="input" type="password" placeholder="Re-enter password" minlength="6" required />
+      </div>
+
+      <div class="row flex items-center">
+        <input id="terms" type="checkbox" class="mr-2" />
+        <label for="terms" class="small muted"> I agree to the <a href="#" class="footerlink">Terms & Conditions</a></label>
+      </div>
+
+      <div id="message" class="row small" aria-live="polite"></div>
+
+      <button id="submitBtn" class="btn" type="submit">
+        Create account
+        <span id="spinner" class="spinner" style="display:none"></span>
+      </button>
+
+      <div class="row small text-center muted mt-4">
+        Already have an account?
+        <a href="login.html" class="footerlink">Log in</a>
+      </div>
+    </form>
+  </div>
+
+<script>
+(() => {
+  const form = document.getElementById('signupForm');
+  const msg = document.getElementById('message');
+  const btn = document.getElementById('submitBtn');
+  const spinner = document.getElementById('spinner');
+
+  // Helper UI functions
+  function showMessage(text, type = 'error') {
+    msg.textContent = text;
+    msg.className = 'row small ' + (type === 'error' ? 'error' : 'success');
+  }
+  function clearMessage() { msg.textContent = ''; msg.className = 'row small'; }
+  function setLoading(on) {
+    btn.disabled = on;
+    spinner.style.display = on ? 'inline-block' : 'none';
+  }
+
+  // Basic email regex (simple)
+  function isValidEmail(e) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+  }
+
+  // localStorage fallback helpers (development only)
+  function saveLocalUser(user) {
+    const key = 'sm_users';
+    const raw = localStorage.getItem(key);
+    const users = raw ? JSON.parse(raw) : [];
+    users.push(user);
+    localStorage.setItem(key, JSON.stringify(users));
+  }
+  function emailExistsLocal(email) {
+    const raw = localStorage.getItem('sm_users');
+    if (!raw) return false;
+    const users = JSON.parse(raw);
+    return users.some(u => u.email === email.toLowerCase());
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearMessage();
+
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim().toLowerCase();
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const agreed = document.getElementById('terms').checked;
+
+    // Client-side validation
+    if (!name) { showMessage('Please enter your full name.'); return; }
+    if (!email || !isValidEmail(email)) { showMessage('Please enter a valid email address.'); return; }
+    if (!password || password.length < 6) { showMessage('Password must be at least 6 characters.'); return; }
+    if (password !== confirmPassword) { showMessage('Passwords do not match.'); return; }
+    if (!agreed) { showMessage('Please accept Terms & Conditions.'); return; }
+
+    setLoading(true);
+
+    // Prepare payload
+    const payload = { name, email, password };
+
+    // Try contacting backend
+    try {
+      const controller = new AbortController();
+      // timeout after 9s if server doesn't respond
+      const timeout = setTimeout(() => controller.abort(), 9000);
+
+      const resp = await fetch('http://localhost:5000/api/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        signal: controller.signal
+      });
+
+      clearTimeout(timeout);
+
+      // parse JSON (guard)
+      let data = {};
+      try { data = await resp.json(); } catch (err) { /* ignore parse error */ }
+
+      if (resp.ok && data && data.success) {
+        // Successful signup - NO auto-login; redirect to login
+        showMessage('Signup successful! Redirecting to login...', 'success');
+        setTimeout(() => { window.location.href = 'login.html'; }, 900);
+      } else {
+        // Backend returned an error (400/409/422 etc.)
+        const serverMsg = (data && data.message) ? data.message : `Signup failed (status ${resp.status}).`;
+        showMessage(serverMsg);
+      }
+    } catch (err) {
+      // Likely network error / server unreachable or aborted
+      console.warn('Signup request failed:', err);
+
+      // Development fallback: save locally so dev can continue testing.
+      // Only do this if email not already present locally.
+      if (emailExistsLocal(email)) {
+        showMessage(' account with this email already exists. Please try login.');
+      } else {
+        saveLocalUser({ name, email: email.toLowerCase(), password });
+        showMessage('Registration completed.', 'success');
+        // Delay a moment so user sees message, then redirect to login
+        setTimeout(() => { window.location.href = 'login.html'; }, 1200);
+      }
+    } finally {
+      setLoading(false);
+    }
+  });
+})();
+</script>
+<script src="signup.js"></script>
+</body>
+</html>

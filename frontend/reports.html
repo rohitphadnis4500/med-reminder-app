@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reports | Smart Medication Tracker</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #e3f2fd, #ffffff);
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    header {
+      background-color: #1565c0;
+      color: white;
+      padding: 1.5rem;
+      text-align: center;
+      font-size: 1.8rem;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+    main {
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .report-summary {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .report-card {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      width: 250px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .report-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(21, 101, 192, 0.3);
+    }
+    .report-card h3 {
+      color: #1565c0;
+      margin-bottom: 0.5rem;
+    }
+    canvas {
+      max-width: 700px;
+      width: 90%;
+      margin-top: 2rem;
+      background: white;
+      padding: 1rem;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <header>📊 Reports & Analytics</header>
+
+  <main>
+    <section class="report-summary">
+      <div class="report-card">
+        <h3>💊 Medicines Taken</h3>
+        <p><strong>0 / 0</strong> this month</p>
+      </div>
+      <div class="report-card">
+        <h3>⏰ Reminders Completed</h3>
+        <p><strong>0%</strong> on-time intake</p>
+      </div>
+      <div class="report-card">
+        <h3>🩺 Health Status</h3>
+        <p>Stable & Improving</p>
+      </div>
+      <div class="report-card">
+        <h3>📅 Next Appointment</h3>
+        <p>No appointments</p>
+      </div>
+    </section>
+
+    <h2 style="color:#1565c0;">📈 Monthly Progress Overview</h2>
+    <canvas id="medChart"></canvas>
+
+    <h2 style="margin-top:3rem; color:#1565c0;">💊 Medicine Adherence Trend</h2>
+    <canvas id="trendChart"></canvas>
+  </main>
+
+  <footer>
+    &copy; 2025 Smart Medication Tracker | Designed with 💙 by Rohit
+  </footer>
+
+  <script src="reports.js"></script>
+</body>
+</html>

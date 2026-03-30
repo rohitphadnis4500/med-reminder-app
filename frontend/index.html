@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Medications Tracker & Reminder</title>
+
+  <!-- Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="font-poppins bg-gray-50 text-gray-800">
+
+  <!-- Navbar -->
+  <nav class="bg-gradient-to-r from-blue-700 to-blue-500 text-white p-5 shadow-lg sticky top-0 z-50">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold tracking-wide">💊 Smart Med Tracker</h1>
+      <ul class="hidden md:flex space-x-8 text-lg font-medium">
+        <li><a href="index.html" class="hover:text-yellow-300">Home</a></li>
+        <li><a href="features.html" class="hover:text-yellow-300">Features</a></li>
+        <li><a href="about.html" class="hover:text-yellow-300">About</a></li>
+        <li><a href="contact.html" class="hover:text-yellow-300">Contact</a></li>
+      </ul>
+      <div class="space-x-4">
+        <a href="login.html" class="px-4 py-2 border border-white rounded-lg hover:bg-white hover:text-blue-700 transition">Login</a>
+        <a href="signup.html" class="px-4 py-2 bg-white text-blue-700 rounded-lg font-semibold hover:bg-yellow-300 transition">Sign Up</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="home" class="relative bg-gradient-to-r from-blue-700 via-blue-600 to-blue-500 text-white text-center py-32 px-6 md:px-12 overflow-hidden">
+    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1588776814546-ec7cd4a3d7c7?auto=format&fit=crop&w=1200&q=80')] bg-cover bg-center opacity-10"></div>
+    <div class="relative z-10">
+      <h1 class="text-5xl md:text-6xl font-extrabold mb-6 leading-tight drop-shadow-lg animate-fadeIn">
+        Manage Your Medications Smartly 💊
+      </h1>
+      <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto opacity-90">
+        Stay on track with your medicines using intelligent reminders and organized tracking.  
+        Your health, simplified.
+      </p>
+      <div class="space-x-4">
+        <a href="signup.html" class="bg-yellow-300 text-blue-900 px-8 py-3 rounded-full font-semibold shadow-lg hover:bg-yellow-400 transition transform hover:scale-105">Get Started</a>
+        <a href="login.html" class="bg-white text-blue-700 px-8 py-3 rounded-full font-semibold shadow-lg hover:bg-blue-100 transition transform hover:scale-105">Login</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Highlights Section -->
+  <section class="py-20 bg-white text-center">
+    <h2 class="text-3xl font-bold text-blue-700 mb-10">Why Choose Smart Med Tracker?</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 px-6 md:px-20">
+      <div class="p-8 rounded-2xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-2">
+        <h3 class="text-2xl font-semibold mb-3">💡 Easy to Use</h3>
+        <p class="text-gray-600">Simple interface designed for all age groups. Add and manage medications effortlessly.</p>
+      </div>
+      <div class="p-8 rounded-2xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-2">
+        <h3 class="text-2xl font-semibold mb-3">🔔 Smart Alerts</h3>
+        <p class="text-gray-600">Set automatic reminders that notify you exactly when it’s time for your dose.</p>
+      </div>
+      <div class="p-8 rounded-2xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-2">
+        <h3 class="text-2xl font-semibold mb-3">📊 Health Insights</h3>
+        <p class="text-gray-600">Get insights into your adherence rates and overall progress through data visualization.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-16 bg-gradient-to-r from-blue-700 to-blue-500 text-white text-center">
+    <h2 class="text-3xl md:text-4xl font-bold mb-4">Start Managing Your Health Smarter</h2>
+    <p class="text-lg mb-6">Join thousands of users already benefiting from Smart Med Tracker.</p>
+    <a href="signup.html" class="bg-yellow-300 text-blue-900 px-8 py-3 rounded-full font-semibold shadow-lg hover:bg-yellow-400 transition transform hover:scale-105">Join Now</a>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-blue-700 text-white text-center py-6">
+    <p>© 2025 Smart Medications Tracker & Reminder | All Rights Reserved</p>
+    <p class="text-sm opacity-80 mt-2">Developed by <strong>Your Name</strong></p>
+  </footer>
+</body>
+</html>

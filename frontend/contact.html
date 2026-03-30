@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | Smart Medications Tracker</title>
+
+  <!-- Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="font-poppins bg-gray-50 text-gray-800">
+
+  <!-- Navbar -->
+  <nav class="bg-gradient-to-r from-blue-700 to-blue-500 text-white p-5 shadow-lg sticky top-0 z-50">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold tracking-wide">💊 Smart Med Tracker</h1>
+      <ul class="hidden md:flex space-x-8 text-lg font-medium">
+        <li><a href="index.html" class="hover:text-yellow-300">Home</a></li>
+        <li><a href="features.html" class="hover:text-yellow-300">Features</a></li>
+        <li><a href="about.html" class="hover:text-yellow-300">About</a></li>
+        <li><a href="contact.html" class="text-yellow-300 font-semibold">Contact</a></li>
+      </ul>
+      <div class="space-x-4">
+        <a href="login.html" class="px-4 py-2 border border-white rounded-lg hover:bg-white hover:text-blue-700 transition">Login</a>
+        <a href="signup.html" class="px-4 py-2 bg-white text-blue-700 rounded-lg font-semibold hover:bg-yellow-300 transition">Sign Up</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <header class="relative bg-gradient-to-r from-blue-700 via-blue-600 to-blue-500 text-white text-center py-24 px-6 overflow-hidden">
+    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1581093588401-22b02c1c2a26?auto=format&fit=crop&w=1200&q=80')] bg-cover bg-center opacity-10"></div>
+    <div class="relative z-10">
+      <h1 class="text-5xl md:text-6xl font-extrabold mb-4 drop-shadow-lg">Contact Us</h1>
+      <p class="text-lg md:text-xl max-w-3xl mx-auto opacity-90">Have questions, feedback, or suggestions?  
+        We’d love to hear from you!</p>
+    </div>
+  </header>
+
+  <!-- Contact Info + Form -->
+  <section class="py-20 px-6 md:px-20 bg-white">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+
+      <!-- Contact Info -->
+      <div class="bg-gradient-to-b from-blue-50 to-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition transform hover:-translate-y-2">
+        <h2 class="text-3xl font-bold text-blue-700 mb-6">Get In Touch</h2>
+        <p class="text-gray-700 mb-8 leading-relaxed">
+          Whether you're facing an issue or just want to share feedback,  
+          our team is always here to help you. Feel free to reach out using any of the methods below.
+        </p>
+
+        <div class="space-y-6 text-gray-800">
+          <div class="flex items-center space-x-4">
+            <span class="text-3xl text-blue-600">📍</span>
+            <p>Smart Medications Tracker HQ<br>123 Health Avenue, Bengaluru, India</p>
+          </div>
+
+          <div class="flex items-center space-x-4">
+            <span class="text-3xl text-blue-600">📞</span>
+            <p>+91 98765 43210</p>
+          </div>
+
+          <div class="flex items-center space-x-4">
+            <span class="text-3xl text-blue-600">✉️</span>
+            <p>support@smartmedtracker.com</p>
+          </div>
+
+          <div class="flex items-center space-x-4">
+            <span class="text-3xl text-blue-600">🌐</span>
+            <p>www.smartmedtracker.com</p>
+          </div>
+        </div>
+
+        <div class="mt-8 flex space-x-5 text-3xl text-blue-600">
+          <a href="#" class="hover:text-blue-800">🌐</a>
+          <a href="#" class="hover:text-blue-800">📘</a>
+          <a href="#" class="hover:text-blue-800">📸</a>
+          <a href="#" class="hover:text-blue-800">🐦</a>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="bg-gradient-to-b from-blue-100 to-white p-8 rounded-2xl shadow-xl hover:shadow-2xl transition transform hover:-translate-y-2">
+        <h2 class="text-3xl font-bold text-blue-700 mb-6">Send a Message</h2>
+        <form action="#" method="POST" class="space-y-6">
+          <div>
+            <label for="name" class="block text-left font-semibold text-gray-700 mb-1">Full Name</label>
+            <input type="text" id="name" name="name" required class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+          </div>
+
+          <div>
+            <label for="email" class="block text-left font-semibold text-gray-700 mb-1">Email Address</label>
+            <input type="email" id="email" name="email" required class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+          </div>
+
+          <div>
+            <label for="message" class="block text-left font-semibold text-gray-700 mb-1">Your Message</label>
+            <textarea id="message" name="message" rows="5" required class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"></textarea>
+          </div>
+
+          <button type="submit" class="w-full py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition transform hover:scale-105">
+            Send Message
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Map Section -->
+  <section class="px-6 md:px-20 pb-20">
+    <div class="rounded-2xl overflow-hidden shadow-xl">
+      <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3889.154018290891!2d77.5946!3d12.9716!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c9b9f30f%3A0x2a7df2f6b92809cb!2sBengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1700000000000"
+        width="100%" height="400" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-blue-700 text-white text-center py-6">
+    <p>© 2025 Smart Medications Tracker & Reminder | All Rights Reserved</p>
+    <p class="text-sm opacity-80 mt-2">Developed by <strong>Your Name</strong></p>
+  </footer>
+
+</body>
+</html>

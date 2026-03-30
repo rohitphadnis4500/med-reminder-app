@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>View Reminders</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background-color: #f4f8ff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h2 {
+      color: #0056b3;
+      margin: 30px 0 10px;
+    }
+
+    .reminders-container {
+      width: 90%;
+      max-width: 600px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+
+    .reminder-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f9fbff;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 12px;
+      transition: 0.3s;
+    }
+
+    .reminder-card:hover {
+      background: #eef5ff;
+    }
+
+    .reminder-details {
+      flex: 1;
+    }
+
+    .reminder-details h3 {
+      margin: 0 0 5px;
+      color: #333;
+    }
+
+    .reminder-details p {
+      margin: 2px 0;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    .reminder-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-left: 15px;
+    }
+
+    button {
+      border: none;
+      padding: 8px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+
+    .taken-btn {
+      background: #28a745;
+      color: white;
+    }
+
+    .taken-btn:hover {
+      background: #1f8a38;
+    }
+
+    .delete-btn {
+      background: #dc3545;
+      color: white;
+    }
+
+    .delete-btn:hover {
+      background: #b02a37;
+    }
+
+    .no-reminders {
+      text-align: center;
+      color: #888;
+      margin-top: 40px;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h2>Medicine Reminders</h2>
+  <div class="reminders-container" id="remindersContainer">
+    
+    <p class="no-reminders">No medicines added yet.</p>
+  </div>
+  <div id="editSection" class="edit-section"></div>
+
+  <script src="reminders.js"></script>
+</body>
+</html>

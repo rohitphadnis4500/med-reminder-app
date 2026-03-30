@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Doctor Contacts | Smart Medication Tracker</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #ffffff);
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    header {
+      background-color: #0288d1;
+      color: white;
+      padding: 1.5rem;
+      text-align: center;
+      font-size: 1.8rem;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+
+    .search-container {
+      text-align: center;
+      margin: 20px auto;
+    }
+
+    #searchBox {
+      width: 60%;
+      padding: 10px 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    #searchBtn {
+      padding: 10px 15px;
+      border: none;
+      background-color: #0288d1;
+      color: white;
+      border-radius: 8px;
+      margin-left: 8px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    #searchBtn:hover {
+      background-color: #0270b1;
+    }
+
+    main {
+      padding: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    .doctor-card {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      width: 320px;
+      text-align: center;
+      padding: 1.5rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .doctor-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 25px rgba(0, 136, 204, 0.3);
+    }
+
+    .doctor-card img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin-bottom: 1rem;
+      border: 3px solid #0288d1;
+    }
+
+    .doctor-card h3 {
+      color: #0288d1;
+      font-size: 1.3rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .doctor-card p {
+      font-size: 0.95rem;
+      margin: 5px 0;
+    }
+
+    .contact-btn {
+      background: #0288d1;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      transition: background 0.3s ease;
+    }
+
+    .contact-btn:hover {
+      background: #026ba1;
+    }
+
+    .no-results {
+      display: none;
+      text-align: center;
+      font-weight: 500;
+      font-size: 1.2rem;
+      color: #888;
+      width: 100%;
+    }
+
+    footer {
+      background-color: #0288d1;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <header>👨‍⚕️ Doctor Contacts</header>
+
+  <div class="search-container">
+    <input type="text" id="searchBox" placeholder="🔍 Search doctor or specialization..." />
+    <button id="searchBtn">Search</button>
+  </div>
+
+<main id="doctorContainer">
+  <!-- Template doctor card -->
+  <div class="doctor-card" id="doctorTemplate" style="display: none;">
+    <img id="doctorImage" src="" alt="Doctor Image" />
+    <h3 id="doctorName"></h3>
+    <p><strong>Specialization:</strong> <span id="doctorSpecialization"></span></p>
+    <p><strong>Hospital:</strong> <span id="doctorHospital"></span></p>
+    <p><strong>Contact:</strong> <span id="doctorContact"></span></p>
+    <p><strong>Timings:</strong> <span id="doctorTimings"></span></p>
+    <p><strong>Gender:</strong> <span id="doctorGender"></span></p>
+    <button id="contactBtn" class="contact-btn">Contact</button>
+  </div>
+</main>
+
+
+
+  <div class="no-results">No doctors found matching your search 😕</div>
+
+  <footer>
+    &copy; 2025 Smart Medication Tracker | Doctor Directory | Designed by Rohit 💙
+  </footer>
+
+  <script src="contacts.js"></script>
+</body>
+</html>

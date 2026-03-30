@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login | Smart Med Tracker</title>
+
+  <!-- Tailwind CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(135deg, #e6f0ff, #f8fafc);
+    }
+    .card {
+      max-width: 420px;
+      width: 94%;
+      margin: 60px auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(18,38,77,0.08);
+      padding: 28px;
+    }
+    .brand {
+      color: #1e3a8a;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+    .muted {
+      color: #475569;
+    }
+    .input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #e6eefc;
+      outline: none;
+      transition: box-shadow 0.15s, border-color 0.15s;
+    }
+    .input:focus {
+      box-shadow: 0 6px 20px rgba(37,99,235,0.12);
+      border-color: #2563eb;
+    }
+    .btn {
+      width: 100%;
+      background: linear-gradient(90deg, #2563eb, #1d4ed8);
+      color: white;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+    }
+    .btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+    .small {
+      font-size: 0.9rem;
+    }
+    .error {
+      color: #dc2626;
+    }
+    .success {
+      color: #16a34a;
+    }
+    .spinner {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 3px solid rgba(255, 255, 255, 0.35);
+      border-top-color: rgba(255, 255, 255, 0.9);
+      border-radius: 50%;
+      animation: spin .9s linear infinite;
+      vertical-align: middle;
+      margin-left: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="mb-4 text-center">
+      <div class="brand text-2xl">💊 Smart Med Tracker</div>
+      <div class="muted small mt-1">Log in to manage your medications</div>
+    </div>
+
+    <form id="loginForm" autocomplete="off" novalidate>
+      <div class="mb-3">
+        <label class="small block mb-1">Email</label>
+        <input id="email" class="input" type="email" placeholder="name@example.com" required />
+      </div>
+
+      <div class="mb-4">
+        <label class="small block mb-1">Password</label>
+        <input id="password" class="input" type="password" placeholder="Your password" minlength="6" required />
+      </div>
+
+      <div id="message" class="mb-3 small" aria-live="polite"></div>
+
+      <button id="loginBtn" class="btn" type="submit">
+        Log In
+        <span id="spinner" class="spinner" style="display:none"></span>
+      </button>
+
+      <div class="mt-4 small text-center muted">
+        Don’t have an account?
+        <a href="signup.html" class="text-blue-600 underline">Sign Up</a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    (() => {
+      const form = document.getElementById('loginForm');
+      const msg = document.getElementById('message');
+      const btn = document.getElementById('loginBtn');
+      const spinner = document.getElementById('spinner');
+
+      function showMessage(text, type = 'error') {
+        msg.textContent = text;
+        msg.className = 'mb-3 small ' + (type === 'error' ? 'error' : 'success');
+      }
+      function clearMessage() { msg.textContent = ''; msg.className = 'mb-3 small'; }
+      function setLoading(on) {
+        btn.disabled = on;
+        spinner.style.display = on ? 'inline-block' : 'none';
+      }
+
+      // Helper: check localStorage for testing fallback
+      function checkLocalLogin(email, password) {
+        const raw = localStorage.getItem('sm_users');
+        if (!raw) return false;
+        const users = JSON.parse(raw);
+        return users.some(u => u.email === email.toLowerCase() && u.password === password);
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        clearMessage();
+
+        const email = document.getElementById('email').value.trim().toLowerCase();
+        const password = document.getElementById('password').value;
+
+        if (!email || !password) {
+          showMessage('Please fill in all fields.');
+          return;
+        }
+
+        setLoading(true);
+
+        try {
+          const controller = new AbortController();
+          const timeout = setTimeout(() => controller.abort(), 9000);
+
+          const resp = await fetch('http://localhost:5000/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password }),
+            signal: controller.signal
+          });
+
+          clearTimeout(timeout);
+
+          let data = {};
+          try { data = await resp.json(); } catch (err) {}
+
+          if (resp.ok && data && data.success) {
+            showMessage('Login successful! Redirecting...', 'success');
+            localStorage.setItem('token', data.token || 'dummy-token');
+            setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
+          } else {
+            showMessage(data.message || 'Invalid email or password.');
+          }
+        } catch (err) {
+          console.warn('Login failed or backend offline:', err);
+
+          // Local fallback for testing
+          if (checkLocalLogin(email, password)) {
+            showMessage('login successful.', 'success');
+            localStorage.setItem('token', 'local-dev-token');
+            setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
+          } else {
+            showMessage('Invalid credentials or server offline.');
+          }
+        } finally {
+          setLoading(false);
+        }
+      });
+    })();
+  </script>
+<script src="login.js"></script>
+</body>
+</html>

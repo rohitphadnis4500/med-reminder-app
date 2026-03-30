@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Progress Tracker | Smart Medication Tracker 💊</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+    Smart Medication Tracker 💊
+  </header>
+
+  <!-- Main Progress Container -->
+  <div class="progress-container">
+    <h2 class="progress-title">Your Medication Progress Overview</h2>
+
+    <!-- Stats Section -->
+    <div class="progress-stats">
+      <div class="stat-box">
+        <h3 id="totalCount">0</h3>
+        <p>Total Medicines</p>
+      </div>
+
+      <div class="stat-box">
+        <h3 id="takenCount">0</h3>
+        <p>Medicines Taken 💊</p>
+      </div>
+
+      <div class="stat-box">
+        <h3 id="missedCount">0</h3>
+        <p>Medicines Missed ❌</p>
+      </div>
+    </div>
+
+    <!-- Chart Section -->
+    <div class="chart-section">
+      <canvas id="progressChart"></canvas>
+    </div>
+
+    <!-- Progress Bar Section -->
+    <div class="bar-section" style="margin-top: 40px;">
+      <h3 style="color:#00796b; margin-bottom:15px;">Overall Completion Progress</h3>
+      <div style="width: 100%; background: #e0f2f1; border-radius: 25px; height: 25px; overflow: hidden;">
+        <div id="progressBar" style="height: 100%; width: 0%; background: linear-gradient(90deg, #4caf50, #81c784); border-radius: 25px; transition: width 1.5s ease;"></div>
+      </div>
+      <p id="progressPercent" style="margin-top:10px; font-weight:500; color:#333;"></p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    © 2025 Smart Medication Tracker | <a href="dashboard.html">Back to Dashboard</a>
+  </footer>
+
+  <!-- Script Connections -->
+  <script src="progress.js"></script>
+</body>
+</html>
