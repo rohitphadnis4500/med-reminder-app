@@ -1,35 +1,35 @@
-// login.js
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("loginForm");
-  const messageBox = document.getElementById("messageBox");
+  const messageBox = document.getElementById("message"); // ✅ FIXED
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    const email = document.getElementById("email").value.trim();
+    const email = document.getElementById("email").value.trim().toLowerCase(); // ✅ FIXED
     const password = document.getElementById("password").value.trim();
 
-    const storedUser = JSON.parse(localStorage.getItem("user"));
+    // Get all users
+    const users = JSON.parse(localStorage.getItem("sm_users")) || [];
 
-    // Check if user exists
-    if (!storedUser) {
-      showMessage("⚠️ No user found. Please sign up first.", "error");
+    // Find matching user
+    const user = users.find(
+      (u) => u.email === email && u.password === password
+    );
+
+    if (!user) {
+      showMessage("❌ Invalid email or password.", "error");
       return;
     }
 
-    // Validate credentials
-    if (email === storedUser.email && password === storedUser.password) {
-      showMessage("✅ Login successful! Redirecting...", "success");
+    // Login success
+    showMessage("✅ Login successful! Redirecting...", "success");
 
-      // Simulate logged-in session (you can replace with tokens later)
-      localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("loggedInUser", email);
 
-      setTimeout(() => {
-        window.location.href = "dashboard.html";
-      }, 1500);
-    } else {
-      showMessage("❌ Invalid email or password.", "error");
-    }
+    setTimeout(() => {
+      window.location.href = "dashboard.html";
+    }, 1200);
   });
 
   function showMessage(msg, type) {
