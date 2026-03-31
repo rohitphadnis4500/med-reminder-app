@@ -168,32 +168,37 @@
     © 2025 Smart Medication Tracker | Designed for Health & Wellness ❤️
   </footer>
 
-  <script>
-    // Check if user is logged in
-    const emailDisplay = document.getElementById('userEmail');
-    const storedToken = localStorage.getItem('token');
-    const storedUsers = localStorage.getItem('sm_users');
-    let userEmail = '';
+<script>
+  const emailDisplay = document.getElementById('userEmail');
 
-    if (!storedToken) {
-      alert('Please log in first!');
-      window.location.href = 'login.html';
+  const isLoggedIn = localStorage.getItem('isLoggedIn');
+  const loggedInUser = localStorage.getItem('loggedInUser');
+
+  // Protect page
+  if (!isLoggedIn) {
+    alert('Please log in first!');
+    window.location.href = 'login.html';
+  } else {
+    // Get user details
+    const users = JSON.parse(localStorage.getItem('sm_users')) || [];
+
+    const user = users.find(u => u.email === loggedInUser);
+
+    if (user) {
+      emailDisplay.textContent = user.name;
     } else {
-      if (storedUsers) {
-        try {
-          const users = JSON.parse(storedUsers);
-          userEmail = users[users.length - 1].name;
-        } catch (err) {}
-      }
-      emailDisplay.textContent = userEmail || 'Logged in user';
+      emailDisplay.textContent = loggedInUser;
     }
+  }
 
-    // Logout functionality
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      localStorage.removeItem('token');
-      alert('Logged out successfully.');
-      window.location.href = 'index.html';
-    });
-  </script>
+  // Logout
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('loggedInUser');
+
+    alert('Logged out successfully.');
+    window.location.href = 'login.html';
+  });
+</script>
 </body>
 </html>
