@@ -1,47 +1,3 @@
-// document.addEventListener("DOMContentLoaded", () => {
-//   const form = document.getElementById("medicineForm");
-
-//   form.addEventListener("submit", (e) => {
-//     e.preventDefault(); // Stop default submit behavior
-
-//     const name = document.getElementById("medicineName").value.trim();
-//     const dosage = document.getElementById("dosage").value.trim();
-//     const frequency = document.getElementById("frequency").value;
-//     const time = document.getElementById("time").value;
-//     const startDate = document.getElementById("startDate").value;
-//     const endDate = document.getElementById("endDate").value;
-
-//     if (!name || !dosage || !frequency || !time || !startDate || !endDate) {
-//       alert("Please fill all fields!");
-//       return;
-//     }
-
-//     // Retrieve existing medicines or initialize empty list
-//     const medicines = JSON.parse(localStorage.getItem("medicines")) || [];
-
-//     // Add new medicine
-//     medicines.push({ name, dosage, frequency, time, startDate, endDate });
-
-//     // Save updated list
-//     localStorage.setItem("medicines", JSON.stringify(medicines));
-
-//     // Show success message
-//     const msg = document.getElementById("successMessage");
-//     msg.style.display = "block";
-
-//     // Reset form
-//     form.reset();
-
-//     // Redirect to view reminders after 1.5 seconds
-//     setTimeout(() => {
-//       window.location.href = "reminders.html";
-//     }, 1500);
-//   });
-// });
-
-// 🕒 Dynamic time inputs based on frequency
-
-
 // 🕒 Dynamic time inputs based on frequency
 const frequencySelect = document.getElementById("frequency");
 const timeFieldsContainer = document.getElementById("timeFields");
@@ -63,6 +19,7 @@ frequencySelect.addEventListener("change", () => {
     const input = document.createElement("input");
     input.type = "time";
     input.id = `time${i}`;
+    input.name = `time${i}`;
     input.required = true;
 
     timeFieldsContainer.appendChild(label);
@@ -80,10 +37,26 @@ document.getElementById("medicineForm").addEventListener("submit", async (e) => 
   const start_date = document.getElementById("startDate").value;
   const end_date = document.getElementById("endDate").value;
 
+  // Validation
+  if (!name || !dosage || !frequency || !start_date || !end_date) {
+    alert("⚠️ Please fill all required fields!");
+    return;
+  }
+
   // Gather time fields dynamically
   const times = {};
   const timeInputs = timeFieldsContainer.querySelectorAll("input[type='time']");
+  
+  if (timeInputs.length === 0) {
+    alert("⚠️ Please add at least one time for your medicine!");
+    return;
+  }
+  
   timeInputs.forEach((input, index) => {
+    if (!input.value) {
+      alert(`⚠️ Please set Time ${index + 1}`);
+      return;
+    }
     times[`time${index + 1}`] = input.value;
   });
 
@@ -101,21 +74,86 @@ document.getElementById("medicineForm").addEventListener("submit", async (e) => 
     ...times, // spreads all time fields (time1, time2, etc.)
   };
 
+  // Show loading state
+  const submitBtn = document.querySelector("#medicineForm button[type='submit']");
+  const originalBtnText = submitBtn.textContent;
+  submitBtn.textContent = "Adding...";
+  submitBtn.disabled = true;
+
   try {
-    const response = await fetch("http://127.0.0.1:5000/medicines/add", {
+    // ✅ UPDATED: Using relative URL (removed localhost)
+    const response = await fetch("/medicines/add", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json" 
+      },
       body: JSON.stringify(newMedicine),
     });
 
     const result = await response.json();
-    alert(result.message);
-
-    // Optionally reset the form
-    document.getElementById("medicineForm").reset();
-    timeFieldsContainer.innerHTML = ""; // Clear time fields
+    
+    if (response.ok) {
+      alert("✅ " + result.message);
+      
+      // Reset the form
+      document.getElementById("medicineForm").reset();
+      timeFieldsContainer.innerHTML = ""; // Clear time fields
+      
+      // Optional: Redirect to reminders page after 2 seconds
+      setTimeout(() => {
+        window.location.href = "reminders.html";
+      }, 2000);
+    } else {
+      alert("❌ " + (result.message || "Failed to save medicine"));
+    }
+    
   } catch (error) {
     console.error("Error saving medicine:", error);
-    alert("Failed to save medicine. Please try again.");
+    alert("❌ Failed to save medicine. Please check your connection and try again.");
+  } finally {
+    // Restore button state
+    submitBtn.textContent = originalBtnText;
+    submitBtn.disabled = false;
   }
+});
+
+// Optional: Add date validation
+document.getElementById("startDate").addEventListener("change", function() {
+  const startDate = this.value;
+  const endDateInput = document.getElementById("endDate");
+  
+  if (startDate && endDateInput.value && endDateInput.value < startDate) {
+    alert("⚠️ End date cannot be before start date!");
+    endDateInput.value = "";
+  }
+});
+
+document.getElementById("endDate").addEventListener("change", function() {
+  const endDate = this.value;
+  const startDateInput = document.getElementById("startDate");
+  
+  if (endDate && startDateInput.value && endDate < startDateInput.value) {
+    alert("⚠️ End date cannot be before start date!");
+    this.value = "";
+  }
+});
+
+// Optional: Add confirmation before leaving if form has unsaved changes
+let formChanged = false;
+document.getElementById("medicineForm").addEventListener("input", () => {
+  formChanged = true;
+});
+
+window.addEventListener("beforeunload", (e) => {
+  if (formChanged) {
+    e.preventDefault();
+    e.returnValue = "You have unsaved changes. Are you sure you want to leave?";
+    return e.returnValue;
+  }
+});
+
+// Reset formChanged flag after successful submission
+const originalSubmitHandler = document.getElementById("medicineForm").submit;
+document.getElementById("medicineForm").addEventListener("submit", () => {
+  formChanged = false;
 });

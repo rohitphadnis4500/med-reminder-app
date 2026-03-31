@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+venv/
+env/
+.DS_Store
+*.db
+*.sqlite
+*.sqlite3
+.vscode/
+.idea/
+*.log
+backend/__pycache__/
+backend/routes/__pycache__/

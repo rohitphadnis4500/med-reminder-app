@@ -1,11 +1,8 @@
 from flask import Blueprint, request, jsonify
-import MySQLdb
 from config import get_db_connection 
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 
 medicines_bp = Blueprint('medicines', __name__)
-
-
 
 
 # ---------------------------
@@ -13,26 +10,31 @@ medicines_bp = Blueprint('medicines', __name__)
 # ---------------------------
 @medicines_bp.route('/all', methods=['GET'])
 def get_all_medicines():
-    conn = get_db_connection()
-    cur = conn.cursor(MySQLdb.cursors.DictCursor)
-    cur.execute("SELECT * FROM medicines;")
-    medicines = cur.fetchall()
-    cur.close()
-    conn.close()
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()  # PyMySQL returns dictionaries by default
+        cur.execute("SELECT * FROM medicines;")
+        medicines = cur.fetchall()
+        cur.close()
+        conn.close()
 
-    # Convert datetime/timedelta to string for JSON
-    for med in medicines:
-        for key, value in med.items():
-            if hasattr(value, 'isoformat'):  # for date/datetime
-                med[key] = value.isoformat()
-            elif str(type(value)) == "<class 'datetime.timedelta'>":
-                total_seconds = int(value.total_seconds())
-                hours = total_seconds // 3600
-                minutes = (total_seconds % 3600) // 60
-                seconds = total_seconds % 60
-                med[key] = f"{hours:02}:{minutes:02}:{seconds:02}"
+        # Convert datetime/timedelta to string for JSON
+        for med in medicines:
+            for key, value in med.items():
+                if hasattr(value, 'isoformat'):  # for date/datetime
+                    med[key] = value.isoformat()
+                elif hasattr(value, 'total_seconds'):  # for time/timedelta
+                    total_seconds = int(value.total_seconds())
+                    hours = total_seconds // 3600
+                    minutes = (total_seconds % 3600) // 60
+                    seconds = total_seconds % 60
+                    med[key] = f"{hours:02}:{minutes:02}:{seconds:02}"
 
-    return jsonify(medicines)
+        return jsonify(medicines)
+    
+    except Exception as e:
+        print("Error fetching medicines:", e)
+        return jsonify({'error': 'Failed to fetch medicines'}), 500
 
 
 # ---------------------------
@@ -86,11 +88,8 @@ def add_medicine():
 # ---------------------------
 # Update existing medicine
 # ---------------------------
-# Update existing medicine
 @medicines_bp.route('/update/<int:med_id>', methods=['PUT'])
 def update_medicine(med_id):
-    from datetime import date, timedelta, datetime
-
     data = request.get_json()
     name = data.get('name')
     dosage = data.get('dosage')
@@ -104,9 +103,12 @@ def update_medicine(med_id):
 
     try:
         conn = get_db_connection()
-        cur = conn.cursor(MySQLdb.cursors.DictCursor)
+        cur = conn.cursor()
+        
+        # Get existing medicine
         cur.execute("SELECT * FROM medicines WHERE id = %s", (med_id,))
         existing = cur.fetchone()
+        
         if not existing:
             cur.close()
             conn.close()
@@ -116,7 +118,7 @@ def update_medicine(med_id):
         if data.get("move_to_next_day") == True:
             today = (date.fromisoformat(existing["today"]) + timedelta(days=1)).isoformat()
 
-        # ✅ NEW: Handle move_to_next_time
+        # Handle move_to_next_time
         elif data.get("move_to_next_time") == True:
             current_time = datetime.now().strftime("%H:%M")
             # if current_time >= time1 and time2 exists → move to time2
@@ -128,6 +130,7 @@ def update_medicine(med_id):
                 # All done for today — move to next day
                 today = (date.fromisoformat(existing["today"]) + timedelta(days=1)).isoformat()
 
+        # Update medicine
         cur.execute("""
             UPDATE medicines
             SET name=%s, dosage=%s, frequency=%s, time1=%s, time2=%s, time3=%s,
@@ -139,12 +142,15 @@ def update_medicine(med_id):
         conn.commit()
         cur.close()
         conn.close()
-        return jsonify({'message': 'Medicine updated successfully!', 'today': today or existing["today"]})
+        
+        return jsonify({
+            'message': 'Medicine updated successfully!', 
+            'today': today or existing["today"]
+        })
 
     except Exception as e:
         print("Error while updating medicine:", e)
         return jsonify({'message': 'Failed to update medicine', 'error': str(e)}), 500
-
 
 
 # ---------------------------
@@ -152,10 +158,15 @@ def update_medicine(med_id):
 # ---------------------------
 @medicines_bp.route('/delete/<int:id>', methods=['DELETE'])
 def delete_medicine(id):
-    conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute("DELETE FROM medicines WHERE id = %s", (id,))
-    conn.commit()
-    cur.close()
-    conn.close()
-    return jsonify({'message': 'Medicine deleted successfully!'})
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("DELETE FROM medicines WHERE id = %s", (id,))
+        conn.commit()
+        cur.close()
+        conn.close()
+        return jsonify({'message': 'Medicine deleted successfully!'})
+    
+    except Exception as e:
+        print("Error deleting medicine:", e)
+        return jsonify({'error': 'Failed to delete medicine'}), 500
