@@ -269,7 +269,11 @@ function showSuccessMessage(message) {
 }
 
 function escapeHtml(str) {
-  if (!str) return "";
+  if (str === null || str === undefined) return "";
+  
+  // ✅ Convert everything to string first
+  str = String(str);
+
   return str
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
