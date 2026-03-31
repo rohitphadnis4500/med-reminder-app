@@ -155,7 +155,7 @@
           const controller = new AbortController();
           const timeout = setTimeout(() => controller.abort(), 9000);
 
-          const resp = await fetch('http://localhost:5000/api/login', {
+          const resp = await fetch('/api/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password }),

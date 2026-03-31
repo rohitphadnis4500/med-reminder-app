@@ -141,7 +141,7 @@
       // timeout after 9s if server doesn't respond
       const timeout = setTimeout(() => controller.abort(), 9000);
 
-      const resp = await fetch('http://localhost:5000/api/signup', {
+      const resp = await fetch('/api/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
