@@ -1,18 +1,17 @@
-// signup.js
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("signupForm");
-  const messageBox = document.getElementById("messageBox");
+  const messageBox = document.getElementById("message"); // ✅ FIXED
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    const username = document.getElementById("username").value.trim();
-    const email = document.getElementById("email").value.trim();
+    const name = document.getElementById("name").value.trim(); // ✅ FIXED
+    const email = document.getElementById("email").value.trim().toLowerCase();
     const password = document.getElementById("password").value.trim();
     const confirmPassword = document.getElementById("confirmPassword").value.trim();
 
     // Validation
-    if (!username || !email || !password || !confirmPassword) {
+    if (!name || !email || !password || !confirmPassword) {
       showMessage("⚠️ Please fill in all fields.", "error");
       return;
     }
@@ -22,16 +21,31 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // Store credentials (for now, in localStorage)
-    const user = { username, email, password };
-    localStorage.setItem("user", JSON.stringify(user));
+    // Get existing users
+    let users = JSON.parse(localStorage.getItem("sm_users")) || [];
+
+    // Check if email already exists
+    const exists = users.some((u) => u.email === email);
+
+    if (exists) {
+      showMessage("⚠️ Email already registered. Please login.", "error");
+      return;
+    }
+
+    // Save user
+    users.push({
+      name: name,
+      email: email,
+      password: password,
+    });
+
+    localStorage.setItem("sm_users", JSON.stringify(users));
 
     showMessage("✅ Signup successful! Please login now.", "success");
 
-    // Redirect after a short delay
     setTimeout(() => {
       window.location.href = "login.html";
-    }, 1500);
+    }, 1200);
   });
 
   function showMessage(msg, type) {
